@@ -43,7 +43,12 @@ public class Tank {
     }
 
     public void draw(Graphics g) {
-        if(!live) return;
+        if(!live) {
+            if(!good) {
+                tc.tanks.remove(this);
+            }
+            return;
+        }
 
         Color c = g.getColor();
         if(good) g.setColor(Color.RED);
@@ -196,4 +201,3 @@ public class Tank {
         return new Rectangle(x, y, WIDTH, HEIGHT);
     }
 }
-

@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.List;
 
 public class Missile {
     public static final int XSPEED = 10;
@@ -33,11 +34,6 @@ public class Missile {
     }
 
     public void draw(Graphics g) {
-        if(!live) {
-            tc.missiles.remove(this);
-            return;
-        }
-
         Color c = g.getColor();
         g.setColor(Color.BLACK);
         g.fillOval(x, y, 5, 5);
@@ -47,8 +43,6 @@ public class Missile {
     }
 
     private void move() {
-
-
         switch(dir) {
             case L:
                 x -= XSPEED;
@@ -84,6 +78,7 @@ public class Missile {
 
         if(x<0 || y<0 || x>TankClient.GAME_WIDTH || y>TankClient.GAME_HEIGHT) {
             live = false;
+            tc.missiles.remove(this);
         }
     }
 
@@ -92,13 +87,25 @@ public class Missile {
     }
 
     public boolean hitTank(Tank t) {
-        if(this.getRect().intersects(t.getRect()) && t.isLive()) {
+        if(this.getRect().intersects(t.getRect())) {
             t.setLive(false);
             this.live = false;
+            Explode e = new Explode(x, y, tc);
+            tc.explodes.add(e); // nullpointerexception tc
             return true;
         }
         return false;
     }
-}
 
+    public boolean hitTanks(List<Tank> tanks) {
+        for(int i = 0; i < tanks.size(); i++) {
+            if(hitTank(tanks.get(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+}
 
