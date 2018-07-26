@@ -13,7 +13,7 @@ public class TankClient extends Frame{
     public static final int GAME_WIDTH = 800;
     public static final int GAME_HEIGHT = 600;
 
-    Tank myTank = new Tank(50,50, true, this);
+    Tank myTank = new Tank(50,50, true, Tank.Direction.STOP, this);
 
     List<Explode> explodes = new ArrayList<Explode>();
     List<Missile> missiles = new ArrayList<Missile>();
@@ -30,6 +30,7 @@ public class TankClient extends Frame{
         for(int i=0; i<missiles.size(); i++) {
             Missile m = missiles.get(i);
             m.hitTanks(tanks);
+            m.hitTank(myTank);
             m.draw(g);
             //if(!m.isLive()) missiles.remove(m);
             //else m.draw(g);
@@ -54,7 +55,7 @@ public class TankClient extends Frame{
         }
         Graphics gOffScreen = offScreenImage.getGraphics();
         Color c = gOffScreen.getColor();
-        gOffScreen.setColor(Color.GREEN);
+        gOffScreen.setColor(Color.WHITE);
         gOffScreen.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         gOffScreen.setColor(c);
         paint(gOffScreen);
@@ -64,7 +65,7 @@ public class TankClient extends Frame{
     public void lauchFrame() {
 
         for(int i = 0; i < 10; i++) {
-            tanks.add(new Tank(50 + 40 * (i + 1), 50, false, this));
+            tanks.add(new Tank(50 + 40 * (i + 1), 50, false, Tank.Direction.D, this));
         }
 
         this.setLocation(400,300);//距离屏幕的左上角点的位置，往右数400，往下数300
@@ -76,7 +77,7 @@ public class TankClient extends Frame{
             }
         });
         this.setResizable(false);
-        this.setBackground(Color.GREEN);
+        this.setBackground(Color.WHITE);
 
         this.addKeyListener(new KeyMonitor());
 
@@ -87,7 +88,7 @@ public class TankClient extends Frame{
 
     public static void main(String[] args) {
         TankClient tc = new TankClient();
-        tc.lauchFrame();//还不能关闭窗口
+        tc.lauchFrame();
     }
 
     private class PaintThread implements Runnable{

@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
 
 //写出一个坏的坦克
 public class Tank {
@@ -25,11 +26,15 @@ public class Tank {
 
     private int x, y;//坐标属性
 
+    private static Random r = new Random();//some tanks share one r
+
     private boolean bL=false, bU=false, bR=false, bD=false;
     enum Direction {L,LU,U,RU,R,RD,LD,D,STOP};
 
     private Direction dir = Direction.STOP;
     private Direction ptDir = Direction.D;
+
+    private int step = r.nextInt(12) + 3;
 
     public Tank(int x, int y, boolean good) {
         this.x = x;
@@ -37,8 +42,9 @@ public class Tank {
         this.good = good;
     }
 
-    public Tank(int x, int y, boolean good, TankClient tc) {
+    public Tank(int x, int y, boolean good, Direction dir, TankClient tc) {
         this(x,y, good);
+        this.dir = dir;
         this.tc=tc;
     }
 
@@ -130,7 +136,22 @@ public class Tank {
         if(y<25) y=25;
         if(x + Tank.WIDTH > TankClient.GAME_WIDTH) x=TankClient.GAME_WIDTH - Tank.WIDTH;
         if(y + Tank.HEIGHT> TankClient.GAME_HEIGHT) y=TankClient.GAME_HEIGHT - Tank.HEIGHT;
-    }//根据当前的方向，把位置移动到下一个位置
+
+        if(!good) {
+            Direction[] dirs = Direction.values();
+
+            if(step == 0) {
+                step = r.nextInt(12) + 3;
+                int rn = r.nextInt(dirs.length);
+                dir = dirs[rn];
+            }
+            step--;
+
+            if(r.nextInt(40) > 38) this.fire();
+
+        }
+
+    }
 
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
@@ -189,9 +210,11 @@ public class Tank {
         locateDirection();
     }
     public Missile fire() {
+        if(!live) return null;
+
         int x = this.x + Tank.WIDTH/2 - Missile.WIDTH/2;
         int y = this.y + Tank.HEIGHT/2 - Missile.HEIGHT/2;
-        Missile m = new Missile(x,y,ptDir, this.tc);
+        Missile m = new Missile(x, y, good, ptDir, this.tc);
         tc.missiles.add(m);
         return m;
         //坦克现在的位置和方向
@@ -199,5 +222,9 @@ public class Tank {
 
     public Rectangle getRect() {
         return new Rectangle(x, y, WIDTH, HEIGHT);
+    }
+
+    public boolean isGood() {
+        return good;
     }
 }
