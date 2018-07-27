@@ -6,9 +6,11 @@ import java.util.ArrayList;
 public class TankClient extends Frame{
 
     /**
-     *
+     * 2.1
      */
     private static final long serialVersionUID = 1L;
+
+    Wall w1 = new Wall(100, 200, 20, 150, this), w2 = new Wall(300, 100, 300, 20, this);
 
     public static final int GAME_WIDTH = 800;
     public static final int GAME_HEIGHT = 600;
@@ -31,6 +33,8 @@ public class TankClient extends Frame{
             Missile m = missiles.get(i);
             m.hitTanks(tanks);
             m.hitTank(myTank);
+            m.hitWall(w1);
+            m.hitWall(w2);//missile can not go through the wall;
             m.draw(g);
             //if(!m.isLive()) missiles.remove(m);
             //else m.draw(g);
@@ -42,9 +46,14 @@ public class TankClient extends Frame{
         }
         for(int i = 0; i < tanks.size(); i++) {
             Tank t = tanks.get(i);
+            t.collideWithWall(w1);
+            t.collideWithWall(w2);
+            t.collideWithTank(tanks);
             t.draw(g);
         }
         myTank.draw(g);
+        w1.draw(g);
+        w2.draw(g);
 
     }
     //类名首字母要大写
@@ -65,7 +74,7 @@ public class TankClient extends Frame{
     public void lauchFrame() {
 
         for(int i = 0; i < 10; i++) {
-            tanks.add(new Tank(50 + 40 * (i + 1), 50, false, Tank.Direction.D, this));
+            tanks.add(new Tank(100 + 80 * (i + 1), 100 + 60 * (i + 1), false, Tank.Direction.D, this));
         }
 
         this.setLocation(400,300);//距离屏幕的左上角点的位置，往右数400，往下数300

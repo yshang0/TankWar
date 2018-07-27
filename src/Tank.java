@@ -26,6 +26,8 @@ public class Tank {
 
     private int x, y;//坐标属性
 
+    private int oldX, oldY;
+
     private static Random r = new Random();//some tanks share one r
 
     private boolean bL=false, bU=false, bR=false, bD=false;
@@ -39,6 +41,8 @@ public class Tank {
     public Tank(int x, int y, boolean good) {
         this.x = x;
         this.y = y;
+        this.oldX = x;
+        this.oldY = y;
         this.good = good;
     }
 
@@ -95,6 +99,11 @@ public class Tank {
     }
 
     void move() {
+
+        this.oldX = x;
+        this.oldY = y;
+        //record the location before move;
+
         switch(dir) {
             case L:
                 x -= XSPEED;
@@ -150,6 +159,8 @@ public class Tank {
             if(r.nextInt(40) > 38) this.fire();
 
         }
+
+
 
     }
 
@@ -227,4 +238,32 @@ public class Tank {
     public boolean isGood() {
         return good;
     }
-}
+
+    public boolean collideWithWall(Wall w) {
+        if(this.live && this.getRect().intersects(w.gerRect())) {
+            this.stay();//this method will not make the tank stick to the wall;
+            return true;
+        }
+        return false;
+    }
+
+    private void stay() {
+        x = oldX;
+        y = oldY;//if collide happened, it's direction should change into the last one;
+    }
+
+    public boolean collideWithTank(java.util.List<Tank> tanks) {
+        for(int i = 0; i < tanks.size(); i++) {
+            Tank t = tanks.get(i);
+            if(this != t) {
+                if(this.live && t.isLive() && this.getRect().intersects(t.getRect())) {
+                    this.stay();
+                    t.stay();//this two lines make the two tanks stop when they meet;
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+ }

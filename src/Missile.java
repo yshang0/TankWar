@@ -110,6 +110,14 @@ public class Missile {
         return false;
     }
 
+    public boolean hitWall(Wall w) {
+        if(this.live && this.getRect().intersects(w.gerRect())) {
+            this.live = false;
+            return true;
+        }
+        return false;
+    }
+
 
 }
 
