@@ -2,7 +2,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
-//写出一个坏的坦克
+//make it can fire in 8 directions
+//show the life value;
+//use the tag to represent the life value;
 public class Tank {
     public static final int XSPEED = 5;
     public static final int YSPEED = 5;
@@ -11,6 +13,17 @@ public class Tank {
     public static final int HEIGHT = 30;
 
     private boolean live = true;
+
+    private int life = 100;
+
+    private BloodBar bb = new BloodBar();
+
+    public int getLife() {
+        return life;
+    }
+    public void setLife(int life) {
+        this.life = life;
+    }
 
     public boolean isLive() {
         return live;
@@ -61,11 +74,18 @@ public class Tank {
         }
 
         Color c = g.getColor();
-        if(good) g.setColor(Color.RED);
-        else g.setColor(Color.BLUE);
-        g.setColor(Color.RED);
+        if(good) {
+            g.setColor(Color.BLUE);
+        } else {
+            g.setColor(Color.YELLOW);
+        }
+
         g.fillOval(x, y, WIDTH, HEIGHT);
         g.setColor(c);
+
+        if(good) {
+            bb.draw(g);
+        }
 
         switch(ptDir) {
             case L:
@@ -217,6 +237,9 @@ public class Tank {
             case KeyEvent.VK_DOWN:
                 bD = false;
                 break;
+            case KeyEvent.VK_1:
+                superFire();
+                break;
         }
         locateDirection();
     }
@@ -264,6 +287,47 @@ public class Tank {
             }
         }
 
+        return false;
+    }
+
+    public Missile fire(Direction dir) {
+        if(!live) return null;
+
+        int x = this.x + Tank.WIDTH/2 - Missile.WIDTH/2;
+        int y = this.y + Tank.HEIGHT/2 - Missile.HEIGHT/2;
+        Missile m = new Missile(x, y, good, dir, this.tc);
+        tc.missiles.add(m);
+        return m;
+    }
+
+    private void superFire() {
+        Direction[] dirs = Direction.values();
+        for(int i = 0; i < 8; i++) {
+            fire(dirs[i]);
+        }
+    }
+
+    private class BloodBar {
+        public void draw(Graphics g) {
+            Color c = g.getColor();
+            g.setColor(Color.RED);
+            g.drawRect(x - 3, y - 13, WIDTH - 10, 5);
+
+            int w =(WIDTH - 10) * life / 100;
+
+            g.fillRect(x - 3, y - 13, w, 5);
+            g.setColor(c);
+        }
+    }
+
+
+
+    public boolean eat(Blood b) {
+        if(this.live && b.getlive() && this.getRect().intersects(b.getRect())) {
+            this.life = 100;
+            b.setlive(false);
+            return true;
+        }
         return false;
     }
  }

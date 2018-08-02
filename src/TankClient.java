@@ -5,9 +5,7 @@ import java.util.ArrayList;
 
 public class TankClient extends Frame{
 
-    /**
-     * 2.1
-     */
+
     private static final long serialVersionUID = 1L;
 
     Wall w1 = new Wall(100, 200, 20, 150, this), w2 = new Wall(300, 100, 300, 20, this);
@@ -23,11 +21,15 @@ public class TankClient extends Frame{
 
     Image offScreenImage = null;//屏幕背后，初始等于空
 
+    Blood b = new Blood();
+
 
     public void paint(Graphics g) {//因为被重画，所以自动会被调用
         g.drawString("missiles count:"+ missiles.size(), 10, 50);
         g.drawString("explodes count:"+ explodes.size(), 10, 70);
         g.drawString("tanks    count:"+ tanks.size(), 10, 90);
+        g.drawString("tanks life:" + myTank.getLife(), 10, 110);
+
 
         for(int i=0; i<missiles.size(); i++) {
             Missile m = missiles.get(i);
@@ -52,8 +54,10 @@ public class TankClient extends Frame{
             t.draw(g);
         }
         myTank.draw(g);
+        myTank.eat(b);
         w1.draw(g);
         w2.draw(g);
+        b.draw(g);
 
     }
     //类名首字母要大写
