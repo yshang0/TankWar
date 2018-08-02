@@ -44,7 +44,6 @@ public class Tank {
     private static Random r = new Random();//some tanks share one r
 
     private boolean bL=false, bU=false, bR=false, bD=false;
-    enum Direction {L,LU,U,RU,R,RD,LD,D,STOP};
 
     private Direction dir = Direction.STOP;
     private Direction ptDir = Direction.D;
@@ -75,9 +74,9 @@ public class Tank {
 
         Color c = g.getColor();
         if(good) {
-            g.setColor(Color.BLUE);
+            g.setColor(Color.WHITE);
         } else {
-            g.setColor(Color.YELLOW);
+            g.setColor(Color.ORANGE);
         }
 
         g.fillOval(x, y, WIDTH, HEIGHT);
@@ -187,6 +186,12 @@ public class Tank {
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
         switch (key) {
+            case KeyEvent.VK_B :
+                if(!this.live) {
+                    this.live = true;
+                    this.life = 100;
+                }
+                break;
             case KeyEvent.VK_LEFT:
                 bL = true;
                 break;

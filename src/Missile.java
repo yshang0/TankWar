@@ -11,7 +11,7 @@ public class Missile {
     public static final int HEIGHT = 5;
 
     int x,y;
-    Tank.Direction dir;
+    Direction dir;
 
     private boolean good;
 
@@ -24,13 +24,13 @@ public class Missile {
         return live;
     }
 
-    public Missile(int x, int y, Tank.Direction dir) {
+    public Missile(int x, int y, Direction dir) {
         this.x = x;
         this.y = y;
         this.dir = dir;
     }
 
-    public Missile (int x, int y, boolean good, Tank.Direction dir, TankClient tc) {
+    public Missile (int x, int y, boolean good, Direction dir, TankClient tc) {
         this(x, y, dir);
         this.good = good;
         this.tc = tc;
@@ -38,9 +38,18 @@ public class Missile {
     }
 
     public void draw(Graphics g) {
+
+        if(!live) {
+            tc.missiles.remove(this);
+            return;
+        }
         Color c = g.getColor();
-        g.setColor(Color.BLACK);
-        g.fillOval(x, y, 5, 5);
+        if(good) {
+            g.setColor(Color.WHITE); // good tank's missiles' color is white
+        } else {
+            g.setColor(Color.yellow);// enemy's missiles' color is LIGHT_GRAY;
+        }
+        g.fillOval(x, y, WIDTH, HEIGHT);
         g.setColor(c);
 
         move();
