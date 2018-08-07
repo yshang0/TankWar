@@ -2,10 +2,10 @@ package worldTankWar2018;
 
 import worldTankWar2018.Direction;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Rectangle;
+import java.awt.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Missile {
     public static final int XSPEED = 10;
@@ -17,6 +17,7 @@ public class Missile {
     int x,y;
     Direction dir;
 
+
     private boolean good;
 
 
@@ -27,6 +28,34 @@ public class Missile {
     public boolean isLive() {
         return live;
     }
+
+    private static Toolkit tk = Toolkit.getDefaultToolkit();
+
+    private static Image[] missileImages = null;
+
+    static Map<String, Image> imgs = new HashMap<String, Image>();
+    //static code area;
+    static {
+        missileImages = new Image[] {
+                tk.getImage(Missile.class.getClassLoader().getResource("images/MissileL.gif")),
+                tk.getImage(Missile.class.getClassLoader().getResource("images/MissileLU.gif")),
+                tk.getImage(Missile.class.getClassLoader().getResource("images/MissileU.gif")),
+                tk.getImage(Missile.class.getClassLoader().getResource("images/MissileRU.gif")),
+                tk.getImage(Missile.class.getClassLoader().getResource("images/MissileR.gif")),
+                tk.getImage(Missile.class.getClassLoader().getResource("images/MissileRD.gif")),
+                tk.getImage(Missile.class.getClassLoader().getResource("images/MissileD.gif")),
+                tk.getImage(Missile.class.getClassLoader().getResource("images/MissileLD.gif"))
+        };
+        imgs.put("L", missileImages[0]);
+        imgs.put("LU", missileImages[1]);
+        imgs.put("U", missileImages[2]);
+        imgs.put("RU", missileImages[3]);
+        imgs.put("R", missileImages[4]);
+        imgs.put("RD", missileImages[5]);
+        imgs.put("D", missileImages[6]);
+        imgs.put("LD", missileImages[7]);
+    }
+
 
     public Missile(int x, int y, Direction dir) {
         this.x = x;
@@ -47,14 +76,35 @@ public class Missile {
             tc.missiles.remove(this);
             return;
         }
-        Color c = g.getColor();
-        if(good) {
-            g.setColor(Color.WHITE); // good tank's missiles' color is white
-        } else {
-            g.setColor(Color.yellow);// enemy's missiles' color is LIGHT_GRAY;
+
+        switch(dir) {
+            case L:
+                g.drawImage(imgs.get("L"), x, y, null);
+                break;
+            case LU:
+                g.drawImage(imgs.get("LU"), x, y, null);
+                break;
+            case U:
+                g.drawImage(imgs.get("U"), x, y, null);
+                break;
+            case RU:
+                g.drawImage(imgs.get("RU"), x, y, null);
+                break;
+            case R:
+                g.drawImage(imgs.get("R"), x, y, null);
+                break;
+            case RD:
+                g.drawImage(imgs.get("RD"), x, y, null);
+                break;
+            case LD:
+                g.drawImage(imgs.get("LD"), x, y, null);
+                break;
+            case D:
+                g.drawImage(imgs.get("D"), x, y, null);
+                break;
+            default:
+                break;
         }
-        g.fillOval(x, y, WIDTH, HEIGHT);
-        g.setColor(c);
 
         move();
     }

@@ -2,11 +2,14 @@ package worldTankWar2018;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Properties;
 
 public class TankClient extends Frame{
-    //2.7
+    //add tank.properties file;
+    //singleton;
 
     private static final long serialVersionUID = 1L;
 
@@ -43,7 +46,8 @@ public class TankClient extends Frame{
         g.drawString("tanks life:" + myTank.getLife(), 10, 110);
 
         if(tanks.size() <= 0) {
-            for(int i = 0; i < 10; i++) {
+
+            for(int i = 0; i < Integer.parseInt(PropertyMgr.getProperty("reProduceTankCount")); i++) {
                 tanks.add(new Tank(100 + 80 * (i + 1), 100 + 60 * (i + 1), false, Direction.D, this));
             }
         } // when the enemy is all dead, add more enemy;
@@ -132,10 +136,11 @@ public class TankClient extends Frame{
         g.drawImage(offScreenImage, 0, 0, null);//观察者
     }//背景没有重刷，之前的圆也会出现
 
-    public void lauchFrame() {
+    public void lauchFrame() throws IOException {
 
-        for(int i = 0; i < 10; i++) {
-            tanks.add(new Tank(100 + 80 * (i + 1), 100 + 60 * (i + 1), false, Direction.D, this));
+        int initTankCount = Integer.parseInt(PropertyMgr.getProperty("initTankCount"));
+        for(int i = 0; i < initTankCount; i++) {
+            tanks.add(new Tank(100 + 40 * (i + 1), 100 + 30 * (i + 1), false, Direction.D, this));
         }
 
         //this.setLocation(400,300);//距离屏幕的左上角点的位置，往右数400，往下数300
@@ -156,7 +161,7 @@ public class TankClient extends Frame{
         new Thread(new PaintThread()).start();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         TankClient tc = new TankClient();
         tc.lauchFrame();
     }

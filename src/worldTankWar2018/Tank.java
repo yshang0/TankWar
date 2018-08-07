@@ -11,8 +11,7 @@ public class Tank {
     public static final int XSPEED = 5;
     public static final int YSPEED = 5;
 
-    public static final int WIDTH = 30;
-    public static final int HEIGHT = 30;
+
 
     private boolean live = true;
 
@@ -60,14 +59,14 @@ public class Tank {
 //static code area;
     static {
         tankImages = new Image[] {
-                tk.getImage(Explode.class.getClassLoader().getResource("images/tankL.gif")),
-                tk.getImage(Explode.class.getClassLoader().getResource("images/tankLU.gif")),
-                tk.getImage(Explode.class.getClassLoader().getResource("images/tanKU.gif")),
-                tk.getImage(Explode.class.getClassLoader().getResource("images/tankRU.gif")),
-                tk.getImage(Explode.class.getClassLoader().getResource("images/tankR.gif")),
-                tk.getImage(Explode.class.getClassLoader().getResource("images/tankRD.gif")),
-                tk.getImage(Explode.class.getClassLoader().getResource("images/tankD.gif")),
-                tk.getImage(Explode.class.getClassLoader().getResource("images/tankLD.gif"))
+                tk.getImage(Tank.class.getClassLoader().getResource("images/tankL.gif")),
+                tk.getImage(Tank.class.getClassLoader().getResource("images/tankLU.gif")),
+                tk.getImage(Tank.class.getClassLoader().getResource("images/tanKU.gif")),
+                tk.getImage(Tank.class.getClassLoader().getResource("images/tankRU.gif")),
+                tk.getImage(Tank.class.getClassLoader().getResource("images/tankR.gif")),
+                tk.getImage(Tank.class.getClassLoader().getResource("images/tankRD.gif")),
+                tk.getImage(Tank.class.getClassLoader().getResource("images/tankD.gif")),
+                tk.getImage(Tank.class.getClassLoader().getResource("images/tankLD.gif"))
         };
         imgs.put("L", tankImages[0]);
         imgs.put("LU", tankImages[1]);
@@ -77,8 +76,10 @@ public class Tank {
         imgs.put("RD", tankImages[5]);
         imgs.put("D", tankImages[6]);
         imgs.put("LD", tankImages[7]);
-
     }
+
+    public static final int WIDTH = 40;
+    public static final int HEIGHT = 40;
 
     public Tank(int x, int y, boolean good) {
         this.x = x;
