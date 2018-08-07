@@ -1,3 +1,7 @@
+package worldTankWar2018;
+
+import worldTankWar2018.Direction;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -89,7 +93,7 @@ public class Missile {
                 break;
         }
 
-        if(x<0 || y<0 || x>TankClient.GAME_WIDTH || y>TankClient.GAME_HEIGHT) {
+        if(x<0 || y<0 || x> TankClient.GAME_WIDTH || y> TankClient.GAME_HEIGHT) {
             live = false;
             tc.missiles.remove(this);
         }

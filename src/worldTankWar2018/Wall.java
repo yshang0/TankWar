@@ -1,3 +1,7 @@
+package worldTankWar2018;
+
+import worldTankWar2018.TankClient;
+
 import java.awt.*;
 
 public class Wall {

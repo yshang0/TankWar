@@ -1,3 +1,5 @@
+package worldTankWar2018;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
@@ -136,7 +138,7 @@ public class TankClient extends Frame{
             tanks.add(new Tank(100 + 80 * (i + 1), 100 + 60 * (i + 1), false, Direction.D, this));
         }
 
-        this.setLocation(400,300);//距离屏幕的左上角点的位置，往右数400，往下数300
+        //this.setLocation(400,300);//距离屏幕的左上角点的位置，往右数400，往下数300
         this.setSize(GAME_WIDTH, GAME_HEIGHT);
         this.setTitle("TankWar");
         this.addWindowListener(new WindowAdapter(){
@@ -167,7 +169,7 @@ public class TankClient extends Frame{
                 repaint();//外部包装类的repaint，是父类的，会内部调用paint
                 //先调用update，再调用paint
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(50);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

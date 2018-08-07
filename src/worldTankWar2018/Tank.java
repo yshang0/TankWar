@@ -1,3 +1,5 @@
+package worldTankWar2018;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -50,6 +52,34 @@ public class Tank {
 
     private int step = r.nextInt(12) + 3;
 
+    private static Toolkit tk = Toolkit.getDefaultToolkit();
+
+    private static Image[] tankImages = null;
+
+    static Map<String, Image> imgs = new HashMap<String, Image>();
+//static code area;
+    static {
+        tankImages = new Image[] {
+                tk.getImage(Explode.class.getClassLoader().getResource("images/tankL.gif")),
+                tk.getImage(Explode.class.getClassLoader().getResource("images/tankLU.gif")),
+                tk.getImage(Explode.class.getClassLoader().getResource("images/tanKU.gif")),
+                tk.getImage(Explode.class.getClassLoader().getResource("images/tankRU.gif")),
+                tk.getImage(Explode.class.getClassLoader().getResource("images/tankR.gif")),
+                tk.getImage(Explode.class.getClassLoader().getResource("images/tankRD.gif")),
+                tk.getImage(Explode.class.getClassLoader().getResource("images/tankD.gif")),
+                tk.getImage(Explode.class.getClassLoader().getResource("images/tankLD.gif"))
+        };
+        imgs.put("L", tankImages[0]);
+        imgs.put("LU", tankImages[1]);
+        imgs.put("U", tankImages[2]);
+        imgs.put("RU", tankImages[3]);
+        imgs.put("R", tankImages[4]);
+        imgs.put("RD", tankImages[5]);
+        imgs.put("D", tankImages[6]);
+        imgs.put("LD", tankImages[7]);
+
+    }
+
     public Tank(int x, int y, boolean good) {
         this.x = x;
         this.y = y;
@@ -72,15 +102,7 @@ public class Tank {
             return;
         }
 
-        Color c = g.getColor();
-        if(good) {
-            g.setColor(Color.WHITE);
-        } else {
-            g.setColor(Color.ORANGE);
-        }
 
-        g.fillOval(x, y, WIDTH, HEIGHT);
-        g.setColor(c);
 
         if(good) {
             bb.draw(g);
@@ -88,28 +110,28 @@ public class Tank {
 
         switch(ptDir) {
             case L:
-                g.drawLine(x + Tank.WIDTH/2, y + Tank.HEIGHT/2, x, y + Tank.HEIGHT/2);//中心一点的位置
+                g.drawImage(imgs.get("L"), x, y, null);
                 break;
             case LU:
-                g.drawLine(x + Tank.WIDTH/2, y + Tank.HEIGHT/2, x, y);
+                g.drawImage(imgs.get("LU"), x, y, null);
                 break;
             case U:
-                g.drawLine(x + Tank.WIDTH/2, y + Tank.HEIGHT/2, x + Tank.WIDTH/2, y);
+                g.drawImage(imgs.get("U"), x, y, null);
                 break;
             case RU:
-                g.drawLine(x + Tank.WIDTH/2, y + Tank.HEIGHT/2, x + Tank.WIDTH, y);
+                g.drawImage(imgs.get("RU"), x, y, null);
                 break;
             case R:
-                g.drawLine(x + Tank.WIDTH/2, y + Tank.HEIGHT/2, x + Tank.WIDTH, y + Tank.HEIGHT/2);
+                g.drawImage(imgs.get("R"), x, y, null);
                 break;
             case RD:
-                g.drawLine(x + Tank.WIDTH/2, y + Tank.HEIGHT/2, x + Tank.WIDTH, y + Tank.HEIGHT);
+                g.drawImage(imgs.get("RD"), x, y, null);
                 break;
             case LD:
-                g.drawLine(x + Tank.WIDTH/2, y + Tank.HEIGHT/2, x, y + Tank.HEIGHT);
+                g.drawImage(imgs.get("LD"), x, y, null);
                 break;
             case D:
-                g.drawLine(x + Tank.WIDTH/2, y + Tank.HEIGHT/2, x + Tank.WIDTH/2, y + Tank.HEIGHT/2);
+                g.drawImage(imgs.get("D"), x, y, null);
                 break;
             default:
                 break;

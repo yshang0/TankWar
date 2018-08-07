@@ -1,3 +1,5 @@
+package worldTankWar2018;
+
 import java.awt.*;
 
 public class Blood {
