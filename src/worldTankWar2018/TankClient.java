@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 public class TankClient extends Frame{
-    //add tank.properties file;
-    //singleton;
-
+    //1.9.1: delete the enemy tanks;
+    //1.9.2: TCP Listener   server  UDP Listener; create server, and Client-port has been connected to server;
+    //use TankServer to do SYN_ACK, and NetClient to do ACK;
     private static final long serialVersionUID = 1L;
 
     Wall w1 = new Wall(100, 70, 20, 100, this);
@@ -27,6 +27,8 @@ public class TankClient extends Frame{
 
     public static final int GAME_WIDTH = 800;
     public static final int GAME_HEIGHT = 600;
+
+    NetClient nc = new NetClient();
 
     Tank myTank = new Tank(50,50, true, Direction.STOP, this);
 
@@ -45,12 +47,6 @@ public class TankClient extends Frame{
         g.drawString("tanks    count:"+ tanks.size(), 10, 90);
         g.drawString("tanks life:" + myTank.getLife(), 10, 110);
 
-        if(tanks.size() <= 0) {
-
-            for(int i = 0; i < Integer.parseInt(PropertyMgr.getProperty("reProduceTankCount")); i++) {
-                tanks.add(new Tank(100 + 80 * (i + 1), 100 + 60 * (i + 1), false, Direction.D, this));
-            }
-        } // when the enemy is all dead, add more enemy;
 
         for(int i=0; i<missiles.size(); i++) {
             Missile m = missiles.get(i);
@@ -138,10 +134,6 @@ public class TankClient extends Frame{
 
     public void lauchFrame() throws IOException {
 
-        int initTankCount = Integer.parseInt(PropertyMgr.getProperty("initTankCount"));
-        for(int i = 0; i < initTankCount; i++) {
-            tanks.add(new Tank(100 + 40 * (i + 1), 100 + 30 * (i + 1), false, Direction.D, this));
-        }
 
         //this.setLocation(400,300);//距离屏幕的左上角点的位置，往右数400，往下数300
         this.setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -159,6 +151,8 @@ public class TankClient extends Frame{
         setVisible(true);
 
         new Thread(new PaintThread()).start();
+
+        nc.connect("127.0.0.1", TankServer.TCP_PORT);//connect to server
     }
 
     public static void main(String[] args) throws IOException {
